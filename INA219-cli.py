@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import smbus
 import time
 import argparse
@@ -193,9 +195,9 @@ class INA219:
 if __name__=='__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("-f", "--format", help="Output format: json, text",
+    parser.add_argument("-f", "--format", help="Output format: json, text, plain",
                     type=str, default="text")
-    parser.add_argument("-p", "--parameter", help="(Only for JSON format) Output only specific parameter: psu_voltage, shunt_voltage, load_voltage, current, power, battery_soc",
+    parser.add_argument("-p", "--parameter", help="(Only for JSON or plain format) Output only specific parameter: psu_voltage, shunt_voltage, load_voltage, current, power, battery_soc",
                     type=str, default=None)    
     args = parser.parse_args()
 
@@ -219,7 +221,7 @@ if __name__=='__main__':
         print("Power:         {:6.3f} W".format(power))
         print("Percent:       {:3.1f}%".format(p))
         print("")
-    elif args.format == 'json':
+    elif args.format == 'json' or args.format == 'plain':
         response_object = {
                 "psu_voltage": {
                         "value": bus_voltage + shunt_voltage,
@@ -261,8 +263,22 @@ if __name__=='__main__':
 
         if args.parameter != None:
             if args.parameter in response_object:
-                print(json.dumps(response_object[args.parameter], indent=2, ensure_ascii=False))
+                if args.format == 'json':
+                    print(json.dumps(response_object[args.parameter], indent=2, ensure_ascii=False))
+                else:
+                    print(response_object[args.parameter]['value'])
             else:
-                print(json.dumps({}))
+                if args.format == 'json':
+                    print(json.dumps({}))
+                else:
+                    print("")
         else:
-            print(json.dumps(response_object, indent=2, ensure_ascii=False))
+            if args.format == 'json':
+                print(json.dumps(response_object, indent=2, ensure_ascii=False))
+            else:
+                print(response_object["psu_voltage"]["value"])
+                print(response_object["shunt_voltage"]["value"])
+                print(response_object["load_voltage"]["value"])
+                print(response_object["current"]["value"])
+                print(response_object["power"]["value"])
+                print(response_object["battery_soc"]["value"])
