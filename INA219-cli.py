@@ -195,6 +195,8 @@ if __name__=='__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-f", "--format", help="Output format: json, text",
                     type=str, default="text")
+    parser.add_argument("-p", "--parameter", help="(Only for JSON format) Output only specific parameter: psu_voltage, shunt_voltage, load_voltage, current, power, battery_soc",
+                    type=str, default=None)    
     args = parser.parse_args()
 
     # Create an INA219 instance.
@@ -257,4 +259,10 @@ if __name__=='__main__':
         response_object["shunt_voltage"]["value"] = round(response_object["shunt_voltage"]["value"], 5)
         response_object["battery_soc"]["value"] = round(response_object["battery_soc"]["value"], 2)
 
-        print(json.dumps(response_object, indent=2, ensure_ascii=False))
+        if args.parameter != None:
+            if args.parameter in response_object:
+                print(json.dumps(response_object[args.parameter], indent=2, ensure_ascii=False))
+            else:
+                print(json.dumps({}))
+        else:
+            print(json.dumps(response_object, indent=2, ensure_ascii=False))
