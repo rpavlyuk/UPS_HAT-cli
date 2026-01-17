@@ -1,0 +1,72 @@
+zabbix_export:
+  version: '7.2'
+  template_groups:
+    - uuid: a571c0d144b14fd4a87a9d9b2aa9fcd6
+      name: Templates/Applications
+  templates:
+    - uuid: 217f62e8e73a45a78729d33e3a279e47
+      template: Waveshare_UPS_HAT_for_RaspberryPi
+      name: 'Waveshare UPS HAT for Raspberry Pi by Zabbix Agent'
+      groups:
+        - name: Templates/Applications
+      items:
+        - uuid: 29ccc70ceb3a4a538ae33776b32078df
+          name: 'UPS HAT: Battery SoC'
+          type: ZABBIX_ACTIVE
+          key: 'ups.hat.waveshare.get[battery_soc]'
+          delay: 30s
+          value_type: FLOAT
+          units: '%'
+          tags:
+            - tag: 'Device Family'
+              value: UPS
+        - uuid: ac744da7df7f481ab4b7366589190f07
+          name: 'UPS HAT: Current'
+          type: ZABBIX_ACTIVE
+          key: 'ups.hat.waveshare.get[current]'
+          delay: 30s
+          value_type: FLOAT
+          units: A
+          tags:
+            - tag: 'Device Family'
+              value: UPS
+        - uuid: 7beff18968964f3cb3b3600411e2e929
+          name: 'UPS HAT: Load Voltage'
+          type: ZABBIX_ACTIVE
+          key: 'ups.hat.waveshare.get[load_voltage]'
+          delay: 30s
+          value_type: FLOAT
+          units: V
+          tags:
+            - tag: 'Device Family'
+              value: UPS
+        - uuid: f3a0ad13dda1448199770bdbf273d5bb
+          name: 'UPS HAT: Power'
+          type: ZABBIX_ACTIVE
+          key: 'ups.hat.waveshare.get[power]'
+          delay: 30s
+          value_type: FLOAT
+          units: W
+          tags:
+            - tag: 'Device Family'
+              value: UPS
+        - uuid: 1bb6710c4e7c445cb3a8acf1fd1836ad
+          name: 'UPS HAT: PSU Voltage'
+          type: ZABBIX_ACTIVE
+          key: 'ups.hat.waveshare.get[psu_voltage]'
+          delay: 30s
+          value_type: FLOAT
+          units: V
+          tags:
+            - tag: 'Device Family'
+              value: UPS
+        - uuid: 458b775b67824efd9fa548540d20f6a1
+          name: 'UPS HAT: Shunt Voltage'
+          type: ZABBIX_ACTIVE
+          key: 'ups.hat.waveshare.get[shunt_voltage]'
+          delay: 30s
+          value_type: FLOAT
+          units: V
+          tags:
+            - tag: 'Device Family'
+              value: UPS
