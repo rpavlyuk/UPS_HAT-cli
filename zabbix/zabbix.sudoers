@@ -1,0 +1,7 @@
+Defaults:zabbix !syslog
+Defaults:zabbix !syslog_goodpri
+Defaults:zabbix !requiretty
+
+Cmnd_Alias ZABBIX_CMD = /usr/local/bin/INA219-cli.py 
+zabbix   ALL = (other_user)  NOPASSWD: ALL
+zabbix   ALL = (root)        NOPASSWD: ZABBIX_CMD
